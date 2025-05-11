@@ -33,18 +33,10 @@ jobs:
 
       - name: Generate Diagrams
         run: |
-          find PlantUML -name '*.puml' -exec java -jar plantuml.jar -tpng -o ../Output {} +
+          find PlantUML -name '*.puml' -exec java -jar plantuml.jar -tpng -o ./Output {} +
           ls -l Output
 
       - name: Commit generated diagrams
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "fix: auto-generate PlantUML diagrams"
-          file_pattern: 'Output/**'
-          branch: main
-        # run: |
-        #   git config user.name "github-actions"
-        #   git config user.email "github-actions@github.com"
-        #   git add .
-        #   git commit -m "Auto-generate PlantUML diagrams" || echo "No changes to commit"
-        #   git push
