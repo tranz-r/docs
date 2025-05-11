@@ -29,8 +29,8 @@ jobs:
 
       - name: Generate Diagrams
         run: |
-          find PlantUML -name '*.puml' -exec java -jar plantuml.jar -tpng -o ./Out {} +
-          ls -l Out
+          find PlantUML -name '*.puml' -exec java -jar plantuml.jar -tpng -o ./Output {} +
+          ls -l Output
 
       - name: Commit generated diagrams
         run: |
