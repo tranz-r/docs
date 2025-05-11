@@ -1,0 +1,37 @@
+@startuml Quotation_Service_Combined
+
+actor Customer
+participant "Customer App" as App
+participant "API Gateway" as API
+participant "Quotation Service" as Quote
+participant "AI Estimation Service" as AI
+participant "Matching Service" as Match
+participant "Driver App" as DriverApp
+database "Quotes DB" as DB
+
+Customer -> App: Upload media (images/videos)
+App -> API: POST /quotation-request
+API -> Quote: Forward request with media metadata
+
+Quote -> AI: Analyze media
+AI -> Quote: Return item list + volume + categories
+
+Quote -> Quote: Calculate base cost
+Quote -> Quote: Apply pricing rules & surcharges
+
+alt In-house fleet available
+    Quote -> DB: Store final quote
+    Quote -> API: Return quote to customer
+    API -> App: Display quote to customer
+else No internal fleet available
+    Quote -> Match: Broadcast job to third-party drivers
+    Match -> DriverApp: Send job opportunity to nearby drivers
+    DriverApp -> Match: Submit driver quote(s)
+    Match -> Quote: Forward best quote
+
+    Quote -> DB: Store final quote with driver info
+    Quote -> API: Return quote to customer
+    API -> App: Display updated quote to customer
+end
+
+@enduml
