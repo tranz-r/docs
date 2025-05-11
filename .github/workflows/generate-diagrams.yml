@@ -2,6 +2,8 @@ name: Generate PlantUML Diagrams
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'PlantUML/**.puml'
       - '.github/workflows/generate-diagrams.yml'
@@ -9,6 +11,8 @@ on:
 
 jobs:
   render:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
